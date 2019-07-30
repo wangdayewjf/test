@@ -16,8 +16,7 @@ public class TestApplication {
 
 			SpringApplication.run(TestApplication.class, args);
 
-			YunXinRequest yunXinRequest = new YunXinRequest();
-			yunXinRequest.getCheckSum();
+
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

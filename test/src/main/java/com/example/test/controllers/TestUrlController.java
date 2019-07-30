@@ -1,6 +1,7 @@
 package com.example.test.controllers;
 
 
+import com.example.test.beans.YunXinRequest;
 import com.example.test.utils.KafkaSender;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -29,5 +30,13 @@ public class TestUrlController {
 	public String send(){
 		kafkaSender.sendTest();
 		return "已调用";
+	}
+
+	@RequestMapping("/account")
+	public String CreateAcount(){
+		YunXinRequest yunXinRequest = new YunXinRequest();
+		yunXinRequest.getCheckSum();
+
+		return "重新获取";
 	}
 }
