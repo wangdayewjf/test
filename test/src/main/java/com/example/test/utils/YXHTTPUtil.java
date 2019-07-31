@@ -68,7 +68,7 @@ public class YXHTTPUtil {
 		return post(url,new YunXinRequest(),dataList);
 	}
 
-	public String YXBatchSendMessage(String url,){
-
-	}
+//	public String YXBatchSendMessage(String url,){
+//
+//	}
 }
