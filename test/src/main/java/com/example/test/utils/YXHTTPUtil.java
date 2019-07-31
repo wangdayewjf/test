@@ -1,5 +1,7 @@
 package com.example.test.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.example.test.beans.YXTestShareMessage;
 import com.example.test.beans.YunXinRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -54,5 +56,19 @@ public class YXHTTPUtil {
 		dataList.add(new BasicNameValuePair("to",to));
 		dataList.add(new BasicNameValuePair("limit",10+""));
 		return  post(url,new YunXinRequest(),dataList);
+	}
+
+	public String YXSendMessage(String url, String from, String to, YXTestShareMessage message) throws IOException {
+		List<NameValuePair> dataList = new ArrayList<>();
+		dataList.add(new BasicNameValuePair("from",from));
+		dataList.add(new BasicNameValuePair("to",to));
+		dataList.add(new BasicNameValuePair("type","100"));
+		dataList.add(new BasicNameValuePair("body", JSON.toJSONString(message) ));
+		dataList.add(new BasicNameValuePair("ope","0"));
+		return post(url,new YunXinRequest(),dataList);
+	}
+
+	public String YXBatchSendMessage(String url,){
+
 	}
 }

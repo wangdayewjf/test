@@ -1,6 +1,7 @@
 package com.example.test.controllers;
 
 
+import com.example.test.beans.YXTestShareMessage;
 import com.example.test.beans.YunXinRequest;
 import com.example.test.utils.KafkaSender;
 import com.example.test.utils.YXHTTPUtil;
@@ -65,4 +66,22 @@ public class TestUrlController {
 			 return  e.getMessage();
 		}
 	}
+
+	@RequestMapping("/yXSendMessage")
+	public String YXSendMessage(){
+		String url = "https://api.netease.im/nimserver/msg/sendMsg.action";
+		YXTestShareMessage selfMessage = new YXTestShareMessage();
+		selfMessage.setContent("内容内容");
+		selfMessage.setTitle("标题标题");
+		selfMessage.setArticleUrl("www.baidu.com");
+		selfMessage.setMinImgUrl("www.baidu.com");
+		try {
+			return yXHTTPUtil.YXSendMessage(url,"zhangsan","wjf",selfMessage);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return  e.getMessage();
+		}
+	}
+
+
 }
