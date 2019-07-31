@@ -3,8 +3,6 @@ package com.example.test.beans;
 
 import com.example.test.utils.CheckSumBuilder;
 import lombok.Data;
-import org.springframework.context.annotation.Configuration;
-import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.InputStream;

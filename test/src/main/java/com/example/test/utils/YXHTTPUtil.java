@@ -9,24 +9,24 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@Component
 public class YXHTTPUtil {
 
-	public static String post(String url, YunXinRequest yxRequest) throws IOException {
+	public  String post(String url, YunXinRequest yxRequest,List<NameValuePair> dataList) throws IOException {
 
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(url);
 
 		String appKey = yxRequest.getAppKey();
-		String appSecret = yxRequest.getAppSecret();
 		String nonce =  yxRequest.getNonce()+"";
 		String curTime = yxRequest.getCurTime()+"";
-		String checkSum = CheckSumBuilder.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
+		String checkSum = yxRequest.getCheckSum();
 
 		// 设置请求的header
 		httpPost.addHeader("AppKey", appKey);
@@ -36,9 +36,7 @@ public class YXHTTPUtil {
 		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
 		// 设置请求的参数
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("accid", "helloworld"));
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps, "utf-8"));
+		httpPost.setEntity(new UrlEncodedFormEntity(dataList, "utf-8"));
 
 		// 执行请求
 		HttpResponse response = httpClient.execute(httpPost);
@@ -46,5 +44,15 @@ public class YXHTTPUtil {
 		// 打印执行结果
 		return EntityUtils.toString(response.getEntity(), "utf-8");
 
+	}
+
+	public String YXQueryMessage(String url,Long beginTime,Long endTime,String from,String to) throws IOException {
+		List<NameValuePair> dataList = new ArrayList<>();
+		dataList.add(new BasicNameValuePair("begintime",beginTime+""));
+		dataList.add(new BasicNameValuePair("endtime",endTime+""));
+		dataList.add(new BasicNameValuePair("from",from));
+		dataList.add(new BasicNameValuePair("to",to));
+		dataList.add(new BasicNameValuePair("limit",10+""));
+		return  post(url,new YunXinRequest(),dataList);
 	}
 }
